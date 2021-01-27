@@ -9,22 +9,60 @@ public class Main {
 	private static String[] E, Q, A;
 
 	private static void convert() {
+		
 		handleFile("file.txt");
-
+		simplification();
+		
 		for (int i = 0; i < Q.length; i++) {
 			if (isConnContain(Q[i])) {
 				c.add(transaction(Q[i]));
 			}
 		}
 		System.out.println(display());
-		System.out.println("Regular Expression = " + c.get(0).getConnection());
+		System.out.println("Regular Expression = " + c.get(c.size()-1).getConnection());
 	}
 
+	private static void simplification() {
+		String start, conn, end, start2, conn2, end2;
+		Connection connection = new Connection();
+		for (int i = 0; i < c.size(); i++) {
+			start = c.get(i).getStart();
+			conn = c.get(i).getConnection();
+			end = c.get(i).getEnd();
+
+			for (int j = 0; j < c.size(); j++) {
+				start2 = c.get(j).getStart();
+				conn2 = c.get(j).getConnection();
+				end2 = c.get(j).getEnd();
+				if (start.equalsIgnoreCase(end2) && start2.equalsIgnoreCase(end)
+						&& (!start.equalsIgnoreCase(start2) && !end.equalsIgnoreCase(end2))) {
+					connection.setStart(start);
+					connection.setEnd(start);
+					connection.setConnection(conn);
+					for (int k = 0; k < c.size(); k++) {
+						if (c.get(k).getStart().equalsIgnoreCase(end) && c.get(k).getEnd().equalsIgnoreCase(end)) {
+							connection
+									.setConnection(connection.getConnection() + "(" + c.get(k).getConnection() + ")*");
+							break;
+						}
+					}
+					connection.setConnection(connection.getConnection() + conn2);
+					c.remove(j);
+					break;
+				}
+
+			}
+		}
+		c.add(connection);
+	}
+	
 	private static Connection transaction(String state) {
 		boolean flag = true;
-		String start, conn, end;
+		String start, conn, end, start2, conn2, end2;
 		Connection connection = new Connection();
+		
 		while (isConnContain(state) && flag) {
+
 			for (int i = 0; i < c.size(); i++) {
 				for (int j = 0; j < c.size(); j++) {
 					if (c.get(i).getStart().equalsIgnoreCase(c.get(j).getStart())
@@ -38,6 +76,7 @@ public class Main {
 			}
 			for (int i = 0; i < c.size(); i++) {
 				flag = true;
+
 				start = c.get(i).getStart();
 				conn = c.get(i).getConnection();
 				end = c.get(i).getEnd();
@@ -54,7 +93,7 @@ public class Main {
 						if (connection.getEnd().equalsIgnoreCase(end) && !conn.equalsIgnoreCase("epsilon")) {
 							connection.setConnection(connection.getConnection() + conn);
 						} else if (conn.equalsIgnoreCase("epsilon")) {
-							//c.get(i).setStart(connection.getStart()); 
+							c.get(i).setStart(connection.getStart());
 							flag = true;
 						} else {
 							Connection data = new Connection(connection.getStart(), c.get(i).getConnection(),
@@ -87,6 +126,7 @@ public class Main {
 					}
 				}
 			}
+
 		}
 		// c.add(connection);
 		System.out.println(connection.print() + "{ADDED} \n\n*** TRANSACTION DONE! ***\n\n");
