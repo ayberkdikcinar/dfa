@@ -2,10 +2,11 @@ import java.io.File;
 import java.io.FileNotFoundException; 
 import java.util.Scanner;
 
-public class Main {
+public class MainOld {
 
 	static DFA dfa;
 	static String [][]table;
+	
 	public static void main(String[] args) {
 		
 		dfa = new DFA();
@@ -47,7 +48,7 @@ public class Main {
 		        	dfa.setAll_states(splitByComma);
 		        else {	
 		        	splitByComma=splitByEqualMark[0].split(",");
-		        	Transaction transact=new Transaction(splitByComma[0],splitByComma[1],splitByEqualMark[1]);
+		        	Connection transact=new Connection(splitByComma[0],splitByComma[1],splitByEqualMark[1]);
 		        	dfa.transactions[dfa.transaction_count++]=transact;
 
 		        }	        
@@ -100,10 +101,10 @@ public class Main {
 						for (int j2 = 2; j2 < table.length; j2++) {
 							if(dfa.transactions[j].getEnd().equals(table[0][j2])) {
 								if(table[i][j2]!=null) {
-									table[i][j2]=table[i][j2]+dfa.transactions[j].getCharacter();
+									table[i][j2]=table[i][j2]+dfa.transactions[j].getConnection();
 								}
 								else
-									table[i][j2]=dfa.transactions[j].getCharacter();
+									table[i][j2]=dfa.transactions[j].getConnection();
 							}
 						}
 					}

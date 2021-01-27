@@ -1,17 +1,27 @@
 
-public class Transaction {
+public class Connection {
 
 	private String start;
-	private String character;
+	private String connection;
 	private String end;
 	
 
+	public Connection() {
+		super();
+		this.start = "";
+		this.end = "";
+		this.connection = "";
+	}
 	
-	public Transaction(String start,String character,String end) {
+	public Connection(String start,String character,String end) {
 		super();
 		this.start = start;
 		this.end = end;
-		this.character = character;
+		this.connection = character;
+	}
+	
+	public String print() {
+		return start + " - " + connection + " - " + end;
 	}
 
 	//// Getter-setters
@@ -41,14 +51,14 @@ public class Transaction {
 
 
 
-	public String getCharacter() {
-		return character;
+	public String getConnection() {
+		return connection;
 	}
 
 
 
-	public void setCharacter(String character) {
-		this.character = character;
+	public void setConnection(String connection) {
+		this.connection = connection;
 	}
 
 

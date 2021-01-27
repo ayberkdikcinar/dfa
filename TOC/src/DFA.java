@@ -5,13 +5,13 @@ public class DFA {
 	private String[] accept_states;
 	private String[] all_states;
 	private String[] alphabet;
-	public Transaction[] transactions;
+	public Connection[] transactions;
 	public int transaction_count;
 
 	public DFA() {
 		
 		transaction_count=0;
-		transactions= new Transaction[100];
+		transactions= new Connection[100];
 	}
 	
 	
