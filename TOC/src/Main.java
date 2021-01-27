@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
@@ -31,6 +30,7 @@ public class Main {
 					if (c.get(i).getStart().equalsIgnoreCase(c.get(j).getStart())
 							&& c.get(i).getEnd().equalsIgnoreCase(c.get(j).getEnd()) && j != i) {
 						c.get(i).setConnection("(" + c.get(i).getConnection() + "+" + c.get(j).getConnection() + ")");
+						System.out.println(c.get(i).print() + "{ADDED} \n\n*** TRANSACTION DONE! ***\n\n");
 						c.remove(j);
 						break;
 					}
@@ -53,17 +53,20 @@ public class Main {
 						}
 						if (connection.getEnd().equalsIgnoreCase(end) && !conn.equalsIgnoreCase("epsilon")) {
 							connection.setConnection(connection.getConnection() + conn);
-						}else if (conn.equalsIgnoreCase("epsilon")) {
-							c.get(i).setStart(connection.getStart());
-						}else {
+						} else if (conn.equalsIgnoreCase("epsilon")) {
+							//c.get(i).setStart(connection.getStart()); 
+							flag = true;
+						} else {
+							Connection data = new Connection(connection.getStart(), c.get(i).getConnection(),
+									c.get(i).getEnd());
 							c.remove(i);
-							Connection data = new Connection(connection.getStart(), c.get(i).getConnection(), c.get(i).getEnd());
 							c.add(data);
+							System.out.println(data.print() + "{ADDED} \n\n*** TRANSACTION DONE! ***\n\n");
 							flag = false;
 						}
 
 					} else if (end.equalsIgnoreCase(state)) {
-						
+
 						if (connection.getStart().equalsIgnoreCase("")) {
 							connection.setStart(start);
 						}
@@ -74,10 +77,11 @@ public class Main {
 
 					}
 					if (flag) {
-						System.out.println(c.get(i).print() + "{REMOVED}");
-						c.remove(i);
-						System.out.println("Connection: " + connection.print());
+
 						System.out.println(display());
+						System.out.println(c.get(i).print() + "{REMOVED}");
+						System.out.println("Connection: " + connection.print());
+						c.remove(i);
 
 						break;
 					}

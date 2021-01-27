@@ -1,4 +1,4 @@
-S=q0
+S=q1
 A=q3
 E=a,b
 Q=q1,q2,q3
